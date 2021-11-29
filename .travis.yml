@@ -2,4 +2,4 @@ language: java
 jdk:
   - openjdk11
 script:
-  - ./IslandReservation/mvnw clean install
+  - ./IslandReservation/mvn clean install
