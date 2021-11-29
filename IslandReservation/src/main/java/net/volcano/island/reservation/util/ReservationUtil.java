@@ -20,11 +20,14 @@ import java.util.Map;
 @Component
 public class ReservationUtil {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault());
     public final static String daysToReservationIdFile = "daysToReservationIdFile.txt";
     public final static String reservationLookupMapFile = "reservationLookupMapFile.txt";
+
+    public ReservationUtil(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * Backup Reservations to file in case of service crashes
