@@ -120,6 +120,8 @@ Body:
 
 ### Update campsite reservation 
 
+When updating existing resrvation, the service checkes if new days available for reservation, then cancels old reservation (by id) and create a new reservation with new reservationId
+
 ```
 PUT  /api/campsite/reservation/{reservationId}
 Accept: application/json
