@@ -19,6 +19,7 @@ If the service stops or crushes for any reason it will restore all the data from
 Since a campsite can only be booked a month in advance the service only stores 30 days. 
 The service removes passed days and reservations every day at midnight and add new date(s).
 If service stopped and restarted few days after, during start up the service reloads all the data from the file system and purges all the past dates and expired reservations.
+### NOTE: accepted date format for all REST endpoints is The most common ISO Date Format ```yyyy-MM-dd```
 
 ## Getting Started
 IslandReservation service is a Spring Boot application.
@@ -43,7 +44,14 @@ Two properties are used to enable/disable backup campsite reservation and restor
   or
  * In IDE/Intellij, find Application.java execute run
 ```
-### Retrieve available dates for campsite
+
+## REST Endpoints
+
+### Note all endpoints that accpet request body should be in JSON format with the following restrictions:
+* Names must be provided
+* Email shoud have valid email format
+* Start and End dates should have ISO Date Format ```yyyy-MM-dd```
+
 
 ### Retrieve available for reservation dates
 ```
@@ -62,7 +70,8 @@ Body:
 
 ```
 
-### Create / reserve a campsite 
+### Create / reserve a campsite
+
 ```
 POST /api/campsite/reservations
 Accept: application/json
