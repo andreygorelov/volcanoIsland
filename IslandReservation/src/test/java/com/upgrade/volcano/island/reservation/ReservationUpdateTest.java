@@ -96,4 +96,40 @@ public class ReservationUpdateTest extends ReservationBaseTest {
         // clean up cancel reservation
         reservationDeleteRequest(response.getReservationId(), response.getEmail(), status().isOk());
     }
+
+    @Test
+    public void updateReservationSuccess() throws Exception {
+        // User registers for now.plusDays(3) to now.plusDays(5) - success
+        ReservationDTO reservationDTO1 =
+                ReservationDTO.builder().email("mdtest@domain.net").firstName("Maylor").lastName("Drift")
+                        .startDate(now.plusDays(3)).endDate(now.plusDays(4)).build();
+
+        MvcResult mvcResult = reservationsPostRequest(reservationDTO1, status().isCreated());
+        ReservationDTO response1 = getReservationDTOFromResponse(mvcResult);
+        assertNotNull(response1.getReservationId());
+        assertEquals("mdtest@domain.net", response1.getEmail());
+        assertEquals(now.plusDays(3), response1.getStartDate());
+
+        // User updates for now.plusDays(4) to now.plusDays(5) - success
+        reservationDTO1.setReservationId(response1.getReservationId());
+        reservationDTO1.setStartDate(now.plusDays(4));
+        reservationDTO1.setEndDate(now.plusDays(5));
+        mvcResult = reservationPutRequest(response1.getReservationId(), reservationDTO1, status().isOk());
+        response1 = getReservationDTOFromResponse(mvcResult);
+        assertNotNull(response1.getReservationId());
+        assertEquals("mdtest@domain.net", response1.getEmail());
+        assertEquals(now.plusDays(4), response1.getStartDate());
+
+        // User updates back to now.plusDays(3) to now.plusDays(4) - success
+        reservationDTO1.setReservationId(response1.getReservationId());
+        reservationDTO1.setStartDate(now.plusDays(3));
+        reservationDTO1.setEndDate(now.plusDays(4));
+        mvcResult = reservationPutRequest(response1.getReservationId(), reservationDTO1, status().isOk());
+        response1 = getReservationDTOFromResponse(mvcResult);
+        assertNotNull(response1.getReservationId());
+        assertEquals("mdtest@domain.net", response1.getEmail());
+        assertEquals(now.plusDays(3), response1.getStartDate());
+
+        reservationDeleteRequest(response1.getReservationId(), response1.getEmail(), status().isOk());
+    }
 }
